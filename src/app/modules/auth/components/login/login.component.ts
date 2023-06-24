@@ -15,7 +15,6 @@ import { ApiService } from 'src/app/services/api.service';
 export class LoginComponent implements OnInit{
 
   token:String = "";
-  routeMessage:String = "";
   loginFG!: FormGroup;
 
   emailvalid:number = 1

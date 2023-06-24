@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ResponseDto } from '../../dto/response/ResponseDto';
 import { User } from '../../dto/request/User';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,13 +13,36 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
 
+  signupFG!:FormGroup;
+  resMessage:String = '';
+
+  constructor(private http:HttpClient,private router: Router,private apiService:ApiService){
+    
+  }
 
   ngOnInit(): void {
-    console.log("Hello login")
+    this.signupFG = new FormGroup({
+      userName: new FormControl("",[Validators.required,Validators.minLength(3),Validators.maxLength(30)]),
+      email: new FormControl("", [Validators.required, Validators.email,]),
+      address: new FormControl(""),
+      password: new FormControl("", [Validators.required,Validators.minLength(3),Validators.maxLength(30)])
+    });
+  
   }
-  constructor(private http:HttpClient,private router: Router){
-    console.log("Hellllllllo")
+
+  get userName() : FormControl{
+    return this.signupFG.get("userName") as FormControl;
   }
+  get email() : FormControl{
+    return this.signupFG.get('email') as FormControl;
+  }
+  get address() : FormControl{
+    return this.signupFG.get('address') as FormControl;
+  }
+  get password(): FormControl{
+    return this.signupFG.get('password') as FormControl;
+  }
+
 
   goToLoginComponent(): void {
     this.router.navigate(['/login']);
@@ -31,14 +56,14 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  signup(userName:String, email:String, address:String, password:String){
+  signup(){
 
-    this.http.post<ResponseDto>("http://localhost:8080/auth/signup",new User(userName,email,address,password)).subscribe(
+    this.apiService.post("/auth/signup",new User(this.userName.value,this.email.value,this.address.value,this.password.value)).subscribe(
       response =>{
         if(response.status){
-          alert(response.message)
+          this.resMessage = response.message;
 
-          this.wait(5000)
+          this.wait(10000 * 10)
           this.goToLoginComponent()
         }else{
           alert(response.message)

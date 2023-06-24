@@ -1,27 +1,44 @@
 
 <main class="centered-div form-signin w-25 m-auto container">
-
-<form>
+<div *ngIf="resMessage != '' ">
+  <h2>hello</h2>
+  <h1>{{resMessage}}</h1>
+</div>
+<form [formGroup]="signupFG">
   <div>
     <a [routerLink]="['/login']" routerLinkActive="router-link-active" > go to Sign In</a>
   </div>
   <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
   <div class="mb-3">
     <label for="userName" class="form-label">User Name</label>
-    <input #inputUserName type="text" class="form-control" id="userName" name="userName">
+    <input formControlName="userName" [class.valid]="userName.valid && userName.touched" [class.not-valid]="userName.invalid && userName.touched"   type="text" class="form-control" id="userName" name="userName">
+    <div *ngIf="userName.invalid && userName.touched">
+      <div *ngIf="userName.hasError('required')"> user Name is required</div>
+      <div *ngIf="userName.hasError('minLength')"> user Name min length is 3 char</div>
+      <div *ngIf="userName.hasError('maxLength')"> user Name max length is 30 char</div>
+    </div>
   </div>
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
-    <input #inputEmail type="email" class="form-control" id="email" name="email" >
+    <input [class.valid]="email.valid && email.touched" [class.not-valid]="email.invalid && email.touched"  formControlName="email" type="email" class="form-control" id="email" name="email" >
+    <div *ngIf="email.invalid && email.touched">
+      <div *ngIf="email.hasError('required')"> email is required</div>
+      <div *ngIf="email.hasError('email')"> email is not valid</div>
+    </div>
   </div>
   <div class="mb-3">
     <label for="address" class="form-label">Address</label>
-    <textarea #inputAddress class="form-control" id="address" name="address" ></textarea>
+    <textarea formControlName="address"  class="form-control" id="address" name="address" ></textarea>
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
-    <input #inputPassword type="password" class="form-control" id="password" name="password" >
+    <input [class.valid]="password.valid && password.touched" [class.not-valid]="password.invalid && password.touched" formControlName="password" type="password" class="form-control" id="password" name="password" >
+    <div *ngIf="password.invalid && password.touched">
+      <div *ngIf="password.hasError('required')"> password is required</div>
+      <div *ngIf="password.hasError('minLength')"> password min length is 3 char</div>
+      <div *ngIf="password.hasError('maxLength')"> password max length is 30 char</div>
+   </div>
   </div>
-  <button type="button" class="btn btn-primary" (click)="signup(inputUserName.value,inputEmail.value,inputAddress.value,inputPassword.value)">Submit</button>
+  <button type="button" class="btn btn-primary" (click)="signup()">Submit</button>
 </form>
 </main>
