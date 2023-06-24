@@ -5,6 +5,7 @@ import { ResponseDto } from '../../dto/response/ResponseDto';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../dto/request/User';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit{
  passwordvalid:number = 1
 
 
-  constructor(private http:HttpClient, private fb:FormBuilder){
+  constructor(private http:HttpClient, private fb:FormBuilder,private apiService:ApiService){
 
 
   }
@@ -51,7 +52,10 @@ export class LoginComponent implements OnInit{
     
     console.log(this.loginFG.controls['email'])
 
-    this.http.post<ResponseDto>("http://localhost:8080/auth/login", new LoginDto(this.email.value, this.password.value)).subscribe(
+    // this.apiService("/auth/login", new LoginDto(this.email.value, this.password.value)).pipe(
+      
+    // )
+    this.apiService.post("/auth/login", new LoginDto(this.email.value, this.password.value)).subscribe(
       response => {
         if(response.status){
           this.token = response.data;
