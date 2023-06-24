@@ -1,16 +1,33 @@
 
-<main class="centered-div form-signin w-25 m-auto container">
 
-<form>
+<main class="centered-div form-signin w-25 m-auto container">
+  <div>
+    <a [routerLink]="['/signup']" routerLinkActive="router-link-active" > go to Sign Up</a>
+  </div>
+<form [formGroup]="loginFG">
+  <div >
+
+  
   <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
   <div class="form-floating">
-    <input #inputEmail type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+    <input formControlName="email" [class.valid]="email.valid && email.touched" [class.not-valid]="email.invalid && email.touched"  type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
     <label for="floatingInput">Email address</label>
+    <div *ngIf="email.invalid&& email.touched">
+      
+        <div *ngIf="email.hasError('email') && email.touched"> invlaid email </div>
+        <div *ngIf="email.hasError('required') && email.touched"> email is required </div>
+
+    </div>
   </div>
   <div class="form-floating">
-    <input #inpurtPassword type="password" class="form-control" id="floatingPassword" placeholder="Password">
+    <input formControlName="password" [class.valid]="password.valid && password.touched" [class.not-valid]="password.invalid && password.touched" type="password" class="form-control" id="floatingPassword" placeholder="Password">
     <label for="floatingPassword">Password</label>
+    <div *ngIf="password.invalid && password.touched">
+        <div *ngIf="password.hasError('required') && password.touched "> the password is required </div>
+        <div *ngIf="password.hasError('minLength') && password.touched "> the password is min minLength is 3 char </div>
+
+      </div>
   </div>
 
   <div class="form-check text-start my-3">
@@ -19,6 +36,7 @@
       Remember me
     </label>
   </div>
-  <button class="btn btn-primary w-100 py-2" type="button" (click)="login(inputEmail.value, inpurtPassword.value)">Sign in</button>
+  <button class="btn btn-primary w-100 py-2" [disabled]="loginFG.invalid" type="button" (click)="login()">Sign in</button>
+</div>
 </form>
 </main>

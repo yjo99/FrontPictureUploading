@@ -3,6 +3,8 @@ import { LoginDto } from '../../dto/request/LoginDto';
 import { HttpClient } from '@angular/common/http';
 import { ResponseDto } from '../../dto/response/ResponseDto';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../dto/request/User';
 
 @Component({
   selector: 'login',
@@ -13,22 +15,43 @@ export class LoginComponent implements OnInit{
 
   token:String = "";
   routeMessage:String = "";
-  
+  loginFG!: FormGroup;
+
+  emailvalid:number = 1
+ passwordvalid:number = 1
 
 
-  constructor(private http:HttpClient){
+  constructor(private http:HttpClient, private fb:FormBuilder){
+
 
   }
   ngOnInit(): void {
-    
+    // this.loginFG = this.fb.group({
+    //   email:["",[Validators.required, Validators.email,Validators.maxLength(15)]],
+    //   password: ["",[Validators.required]]
+    // })
+    this.loginFG = new FormGroup({
+     email : new FormControl("" , [Validators.required, Validators.email]),
+     password: new FormControl("",[Validators.required,Validators.minLength(3)])
+    })
+  }
+
+  get email() : FormControl{
+    return this.loginFG.get('email') as FormControl;
+  }
+
+  get password() : FormControl{
+    return this.loginFG.get('password') as FormControl;
   }
 
 
 
-  login(email:String, password:String){
 
+  login(){
+    
+    console.log(this.loginFG.controls['email'])
 
-    this.http.post<ResponseDto>("http://localhost:8080/auth/login", new LoginDto(email,password)).subscribe(
+    this.http.post<ResponseDto>("http://localhost:8080/auth/login", new LoginDto(this.email.value, this.password.value)).subscribe(
       response => {
         if(response.status){
           this.token = response.data;
@@ -37,8 +60,6 @@ export class LoginComponent implements OnInit{
         }else{
           alert(response.message)
         }
-
-        
       }
       
     );

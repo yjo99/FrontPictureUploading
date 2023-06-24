@@ -3,21 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './modules/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    PagenotfoundComponent,
 
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule, 
-    FormsModule,
+    
+
     AuthModule,
     HttpClientModule,
+    BrowserModule,
+    AppRoutingModule, 
+
   ],
   providers: [],
   bootstrap: [AppComponent]
