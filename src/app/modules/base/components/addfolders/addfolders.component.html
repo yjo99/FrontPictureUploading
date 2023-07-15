@@ -1,0 +1,30 @@
+<h2>Select a File</h2>
+<form [formGroup]="fg"  enctype="multipart/form-data">
+
+    <div formArrayName="fileFormArray" class="div1" >
+
+        <div *ngFor="let itme of fileFormArray.controls; let i = index" [formGroupName]="i">
+            <div style="border: 2px solid red;">
+                <h1>{{i}}</h1>
+                <div>
+                    <label for="fileInput">Choose a file:</label>
+                    <input formControlName="file" type="file" id="fileInput" name="fileInput">
+                </div>
+                <div>
+                    <label for="nameInput">Name:</label>
+                    <input formControlName="name" type="name" id="nameInput" name="nameInput">
+                </div>
+                <div>
+                    <label for="ageInput">age:</label>
+                    <input type="number" id="ageInput" name="ageInput">
+                </div>
+                <button type="button" (click)="addFileToFormArray()">Add Item</button>
+                <button type="button" (click)="removeFileToFormArray(i)">delete</button>
+            </div>
+        </div>
+
+    </div>
+
+   
+        <button type="button" value="Submit" > save </button>
+</form>

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './modules/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { BaseModule } from './modules/base/base.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
     
 
     AuthModule,
+    BaseModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule, 
